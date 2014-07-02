@@ -64,6 +64,5 @@ The lcd is a 128x64 pixel monchrome lcd drivers through RS, E, RW, S, and 8 bit 
 
 power-off:
 ---------
-from original 3.0.29 i know that puling UP the GPIO24 is shutting down the nas. yet doing the same on 3.16 just reboots it. there must be a code in the 3.0.29 lenovo that does something to define the behavior of the GPIO24/MPP24 but can't find it. any help ?
-
+The current DTS include the handling of the poweroff by pulling up GPIO24. This works except the orion watchdog doesn't seems to be disabled and therefore reboots the nas instead of stoping it. One workarounf is not to compil watchdog support in the kernel this way you can shutdown the nas. I was not lucky with watchdog service or systemd disabling teh watchdog by clsing the /dev/watchdog file, even though the CONFIG_WATCHDOG_?OWAYOUT is n...
  
