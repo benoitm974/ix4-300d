@@ -227,7 +227,7 @@ static ssize_t wixlcm_write(struct file *file, const char __user * in,
 				}
 			break;
 			case 'T':
-				strncpy(output, in+1, size-1); output[size]='\0';
+				strncpy(output, in+1, size-1); output[size-2]='\0';
 				for (c=0; c<strlen(output); c++){
 					offset = (c*(FONT8_WIDTH+FONT8_SPACE_WIDTH));
 					charmemmap = (( ((int)output[c])-FONT8_ASCII_OFFSET)*FONT8_WIDTH);
