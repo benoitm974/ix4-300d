@@ -128,6 +128,49 @@
 				}; 
                      
 			};
+			nand@d0000 {
+                                status = "okay";
+                                num-cs = <1>;
+                                marvell,nand-keep-config;
+                                marvell,nand-enable-arbiter;
+                                nand-on-flash-bbt;
+
+                                partition@0 {
+                                        label = "u-boot";
+                                        reg = <0x0000000 0xe0000>;  /* MB */
+                                        read-only;
+                                };
+
+                                partition@e0000 {
+                                        label = "u-boot-env";
+                                        reg = <0xe0000 0x20000>;    /* KB */
+                                        read-only;
+                                };
+
+                                partition@100000 {
+                                        label = "u-boot-env2";
+                                        reg = <0x100000 0x20000>;    /* MB */
+					read-only;
+                                };
+
+                                partition@120000 {
+                                        label = "zImage";
+                                        reg = <0x120000 0x400000>;    /* MB */
+                                };
+
+                                partition@520000 {
+                                        label = "initrd";
+                                        reg = <0x520000 0x400000>; /* MB */
+                                };
+                                partition@xE00000 {
+                                        label = "boot";
+                                        reg = <0xE00000 0x3F200000>; /* MB */
+                                };
+                                partition@flash {
+                                        label = "flash";
+                                        reg = <0x0 0x40000000>; /* MB */
+                                };
+                        };
 
 		};
 	};
