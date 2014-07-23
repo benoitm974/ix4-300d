@@ -137,38 +137,38 @@
 
                                 partition@0 {
                                         label = "u-boot";
-                                        reg = <0x0000000 0xe0000>;  /* MB */
+                                        reg = <0x0000000 0xe0000>;
                                         read-only;
                                 };
 
                                 partition@e0000 {
                                         label = "u-boot-env";
-                                        reg = <0xe0000 0x20000>;    /* KB */
+                                        reg = <0xe0000 0x20000>;
                                         read-only;
                                 };
 
                                 partition@100000 {
                                         label = "u-boot-env2";
-                                        reg = <0x100000 0x20000>;    /* MB */
+                                        reg = <0x100000 0x20000>;
 					read-only;
                                 };
 
                                 partition@120000 {
                                         label = "zImage";
-                                        reg = <0x120000 0x400000>;    /* MB */
+                                        reg = <0x120000 0x400000>;
                                 };
 
                                 partition@520000 {
                                         label = "initrd";
-                                        reg = <0x520000 0x400000>; /* MB */
+                                        reg = <0x520000 0x400000>;
                                 };
                                 partition@xE00000 {
                                         label = "boot";
-                                        reg = <0xE00000 0x3F200000>; /* MB */
+                                        reg = <0xE00000 0x3F200000>;
                                 };
                                 partition@flash {
                                         label = "flash";
-                                        reg = <0x0 0x40000000>; /* MB */
+                                        reg = <0x0 0x40000000>;
                                 };
                         };
 
@@ -203,8 +203,6 @@
 	
 	spi3 {
                 compatible = "spi-gpio";
-                /*pinctrl-names = "default";
-                pinctrl-0 = <&spi3_pins_>; TODO */
                 status = "okay";
                 gpio-sck = <&gpio0 25 0>;
                 gpio-mosi = <&gpio1 15 0>; /*gpio 47*/
@@ -258,7 +256,7 @@
                 };
 
 	};
-
+	/* warning: you need both eth1 & 0 to be initialize for poweroff to shutdown otherwise it reboots */
 	gpio-poweroff {
                 compatible = "gpio-poweroff";
                 pinctrl-0 = <&poweroff>;
