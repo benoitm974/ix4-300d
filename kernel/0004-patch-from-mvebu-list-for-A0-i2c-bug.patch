@@ -1,0 +1,26 @@
+From 13e0c7b5a50d1cee6ef759eb0c73bff89847edfb Mon Sep 17 00:00:00 2001
+From: Benoit Masson <yahoo@perenite.com>
+Date: Mon, 28 Jul 2014 14:08:46 -0700
+Subject: [PATCH 4/4] patch from mvebu list for A0 i2c bug
+
+Signed-off-by: Benoit Masson <yahoo@perenite.com>
+---
+ arch/arm/mach-mvebu/board-v7.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-mvebu/board-v7.c b/arch/arm/mach-mvebu/board-v7.c
+index b2524d6..b1e148d 100644
+--- a/arch/arm/mach-mvebu/board-v7.c
++++ b/arch/arm/mach-mvebu/board-v7.c
+@@ -174,7 +174,7 @@ static void __init thermal_quirk(void)
+ 
+ static void __init mvebu_dt_init(void)
+ {
+-	if (of_machine_is_compatible("plathome,openblocks-ax3-4"))
++	if (of_machine_is_compatible("marvell,armadaxp"))
+ 		i2c_quirk();
+ 	if (of_machine_is_compatible("marvell,a375-db")) {
+ 		external_abort_quirk();
+-- 
+1.9.1
+

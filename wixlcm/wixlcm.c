@@ -32,6 +32,7 @@
 
 #include "img.h"
 #include "font.h"
+#include "initImg.h"
 
 /* pin definition */
 #define LCM_BUS_RS                      29      //MPP15 use for RS
@@ -191,7 +192,14 @@ static ssize_t wixlcm_read(struct file *file, char __user * out,
 
 	return bsize;
 }
+
 static DEFINE_MUTEX(lcm_mutex);
+
+static void draw_init(void)
+{
+	memcpy(img, initImg, sizeof(img));
+        draw_lcm();
+}
 
 static ssize_t wixlcm_write(struct file *file, const char __user * in,
 			     size_t size, loff_t * off)
@@ -208,6 +216,9 @@ static ssize_t wixlcm_write(struct file *file, const char __user * in,
 				result = size;
 			break;
 			case 'B':
+				//clearing the buffer
+				memset(img,0,sizeof(img));
+
 				if (mutex_lock_interruptible(&lcm_mutex)!=0){
 					result = -EFAULT;
 				} else {
@@ -216,7 +227,7 @@ static ssize_t wixlcm_write(struct file *file, const char __user * in,
 						result = -EFAULT;
 					} else {
 						printk(KERN_INFO "/dev/lcm logwrite img: %p size: %d in: %p",img, size, in);
-						if (copy_from_user(img, in+1, size)==0){
+						if (copy_from_user(img, in+1, size-2)==0){
 							result = size; 	
 						} else {
 							result = -EFAULT;
@@ -226,7 +237,13 @@ static ssize_t wixlcm_write(struct file *file, const char __user * in,
 					draw_lcm();
 				}
 			break;
+			case 'I':
+				draw_init();
+			break;
 			case 'T':
+				//clearing the buffer
+                                memset(img,0,sizeof(img));
+
 				strncpy(output, in+1, size-1); output[size-2]='\0';
 				for (c=0; c<strlen(output); c++){
 					offset = (c*(FONT8_WIDTH+FONT8_SPACE_WIDTH));
@@ -306,7 +323,8 @@ static int __init wixlcm_init(void)
 
 	initialize_lcm();
 	clear_lcm();
-        
+        draw_init();
+ 
 	return ret;
 }
 

@@ -117,8 +117,6 @@
 			};
 
 			i2c@11000 {
-				compatible = "marvell,mv78230-a0-i2c",
-					"marvell,mv64xxx-i2c";
 				clock-frequency = <400000>;
 				status = "okay";
 
@@ -216,14 +214,14 @@
 	spi3 {
 		compatible = "spi-gpio";
 		status = "okay";
-		gpio-sck = <&gpio0 25 0>;
-		gpio-mosi = <&gpio1 15 0>; /*gpio 47*/
-		cs-gpios = <&gpio0 27 0 >;
+		gpio-sck = <&gpio0 25 GPIO_ACTIVE_LOW>;
+		gpio-mosi = <&gpio1 15 GPIO_ACTIVE_LOW>; /*gpio 47*/
+		cs-gpios = <&gpio0 27 GPIO_ACTIVE_LOW>;
 		num-chipselects = <1>;
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		gpio2: gpio2@0 {
+		gpio_spi: gpio_spi@0 {
 			compatible = "fairchild,74hc595";
 			gpio-controller;
 			#gpio-cells = <2>;
@@ -242,11 +240,12 @@
 			label = "ix4-300d:hdd:blue";
 			gpios = <&gpio0 26 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
+			linux,default-trigger = "ide-disk";
 		};
 
 		power-led {
 			label = "ix4-300d:power:white";
-			gpios = <&gpio2 1 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio_spi 1 GPIO_ACTIVE_LOW>;
 			/* init blinking while booting */
 			linux,default-trigger = "timer";
 			default-state = "on";
@@ -254,27 +253,29 @@
 
 		sysfail-led {
 			label = "ix4-300d:sysfail:red";
-			gpios = <&gpio2 2 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio_spi 2 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 
 		sys-led {
 			label = "ix4-300d:sys:blue";
-			gpios = <&gpio2 3 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio_spi 3 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 
 		hddfail-led {
 			label = "ix4-300d:hddfail:red";
-			gpios = <&gpio2 4 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio_spi 4 GPIO_ACTIVE_HIGH>;
 			default-state = "off";
 		};
 
 	};
 
-	/* Warning: you need both eth1 & 0 PHY initialized
-		(i.e having them up does the tweak)
-		for poweroff to shutdown otherwise it reboots */
+	/* 
+	 * Warning: you need both eth1 & 0 PHY initialized (i.e having
+	 * them up does the tweak) for poweroff to shutdown otherwise it
+	 * reboots 
+	 */
 	gpio-poweroff {
 		compatible = "gpio-poweroff";
 		pinctrl-0 = <&poweroff_pin>;

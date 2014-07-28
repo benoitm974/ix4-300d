@@ -1,0 +1,62 @@
+From 118468a9e78825f3fa0e6286d3385bf805cdfa9c Mon Sep 17 00:00:00 2001
+From: Benoit Masson <yahoo@perenite.com>
+Date: Mon, 28 Jul 2014 14:08:00 -0700
+Subject: [PATCH 3/4] added led patch
+
+Signed-off-by: Benoit Masson <yahoo@perenite.com>
+---
+ arch/arm/boot/dts/armada-xp-lenovo-ix4-300d.dts | 1 +
+ drivers/ata/sata_mv.c                           | 4 ++++
+ drivers/leds/trigger/Kconfig                    | 2 +-
+ 3 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/armada-xp-lenovo-ix4-300d.dts b/arch/arm/boot/dts/armada-xp-lenovo-ix4-300d.dts
+index 6cdd68c..34c45e3 100644
+--- a/arch/arm/boot/dts/armada-xp-lenovo-ix4-300d.dts
++++ b/arch/arm/boot/dts/armada-xp-lenovo-ix4-300d.dts
+@@ -240,6 +240,7 @@
+ 			label = "ix4-300d:hdd:blue";
+ 			gpios = <&gpio0 26 GPIO_ACTIVE_HIGH>;
+ 			default-state = "off";
++			linux,default-trigger = "ide-disk";
+ 		};
+ 
+ 		power-led {
+diff --git a/drivers/ata/sata_mv.c b/drivers/ata/sata_mv.c
+index 391cfda..c9f15db 100644
+--- a/drivers/ata/sata_mv.c
++++ b/drivers/ata/sata_mv.c
+@@ -72,6 +72,8 @@
+ #include <scsi/scsi_cmnd.h>
+ #include <scsi/scsi_device.h>
+ #include <linux/libata.h>
++#include <linux/leds.h>
++
+ 
+ #define DRV_NAME	"sata_mv"
+ #define DRV_VERSION	"1.28"
+@@ -1170,6 +1172,8 @@ static void mv_start_edma(struct ata_port *ap, void __iomem *port_mmio,
+ {
+ 	int want_ncq = (protocol == ATA_PROT_NCQ);
+ 
++	ledtrig_ide_activity();
++
+ 	if (pp->pp_flags & MV_PP_FLAG_EDMA_EN) {
+ 		int using_ncq = ((pp->pp_flags & MV_PP_FLAG_NCQ_EN) != 0);
+ 		if (want_ncq != using_ncq)
+diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
+index 49794b4..7ad2cfa 100644
+--- a/drivers/leds/trigger/Kconfig
++++ b/drivers/leds/trigger/Kconfig
+@@ -35,7 +35,7 @@ config LEDS_TRIGGER_ONESHOT
+ 
+ config LEDS_TRIGGER_IDE_DISK
+ 	bool "LED IDE Disk Trigger"
+-	depends on IDE_GD_ATA
++	depends on IDE_GD_ATA || SATA_MV
+ 	depends on LEDS_TRIGGERS
+ 	help
+ 	  This allows LEDs to be controlled by IDE disk activity.
+-- 
+1.9.1
+

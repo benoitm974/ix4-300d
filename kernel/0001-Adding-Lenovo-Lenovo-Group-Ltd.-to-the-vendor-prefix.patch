@@ -1,0 +1,29 @@
+From e107fbf4ab5fe9cc4353983b39b9dc83f50d067f Mon Sep 17 00:00:00 2001
+From: Benoit Masson <yahoo@perenite.com>
+Date: Wed, 23 Jul 2014 14:58:22 -0700
+Subject: [PATCH 1/4] Adding Lenovo - Lenovo Group Ltd. to the vendor-prefixes
+ list.
+
+Lenovo Group Ltd. (stylized as lenovo) is a Chinese multinational computer technology company with headquarters in Beijing, China, and Morrisville, North Carolina, United States.
+
+http://www.lenovo.com/
+Signed-off-by: Benoit Masson <yahoo@perenite.com>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.txt b/Documentation/devicetree/bindings/vendor-prefixes.txt
+index 46a311e..ae09892 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.txt
++++ b/Documentation/devicetree/bindings/vendor-prefixes.txt
+@@ -71,6 +71,7 @@ karo	Ka-Ro electronics GmbH
+ keymile	Keymile GmbH
+ lacie	LaCie
+ lantiq	Lantiq Semiconductor
++lenovo	Lenovo Group Ltd.
+ lg	LG Corporation
+ linux	Linux-specific binding
+ lsi	LSI Corp. (LSI Logic)
+-- 
+1.9.1
+
