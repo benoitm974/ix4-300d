@@ -170,7 +170,7 @@ static ssize_t wixlcm_read(struct file *file, char __user * out,
 {
 	ssize_t result;
 	int bsize;
-	char msg[] = "LCM display usage:\n<code>+<byte array>\ncode: C clear, B draw bmp, T ascii text\n";
+	char msg[] = "LCM display usage:\n<code>+<byte array>\ncode: C clear, B draw bmp, T ascii text, I init image\n";
 	static int buf;
 	static int initBuf=1;
 
@@ -227,7 +227,7 @@ static ssize_t wixlcm_write(struct file *file, const char __user * in,
 						result = -EFAULT;
 					} else {
 						printk(KERN_INFO "/dev/lcm logwrite img: %p size: %d in: %p",img, size, in);
-						if (copy_from_user(img, in+1, size-2)==0){
+						if (copy_from_user(img, in+1, size-1)==0){
 							result = size; 	
 						} else {
 							result = -EFAULT;
